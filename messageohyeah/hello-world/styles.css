@@ -48,3 +48,8 @@ html, body {
     background-color: rgb(139, 188, 189);
     border-radius: 10px;
 }
+
+#online {
+    text-align: center;
+    font-size: medium;
+}

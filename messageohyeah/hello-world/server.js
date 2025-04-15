@@ -6,6 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 let user;
+var online = 0;
 
 
 app.use(express.static('public'));
@@ -20,6 +21,8 @@ io.on('connection', (socket) => {
     socket.on('sendUsername', (username) => {
         user = username.username;
         console.log('-~~~~~~ ' + user + ' connected ~~~~~~-');
+        online++;
+        io.emit('online', { online: online });
     });
 
     // when a client sends a message to server - send back to all clients
@@ -30,6 +33,9 @@ io.on('connection', (socket) => {
     // user disconnect
     socket.on('disconnect', () => {
         console.log('-~~~~~~ a user disconnected ~~~~~~-');
+        online--;
+        io.emit('online', { online: online });
+        console.log('nice')
     });
 });
 

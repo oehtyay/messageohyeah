@@ -29,6 +29,12 @@ socket.on('chat-message', (data) => {
     scrollToBottom();
 });
 
+socket.on('online', (num) => {
+    console.log('hi')
+    const onlineNum = document.getElementById('online');
+    onlineNum.textContent = num.online + " users online";
+});
+
 function sendMessage() {
     if (messageInput.value.trim() != "") {
         socket.emit('chat-message', { username: username, message: messageInput.value });
