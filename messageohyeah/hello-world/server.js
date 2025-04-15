@@ -35,7 +35,6 @@ io.on('connection', (socket) => {
         console.log('-~~~~~~ a user disconnected ~~~~~~-');
         online--;
         io.emit('online', { online: online });
-        console.log('nice')
     });
 });
 

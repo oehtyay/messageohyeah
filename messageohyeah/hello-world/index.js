@@ -30,7 +30,6 @@ socket.on('chat-message', (data) => {
 });
 
 socket.on('online', (num) => {
-    console.log('hi')
     const onlineNum = document.getElementById('online');
     onlineNum.textContent = num.online + " users online";
 });
