@@ -9,7 +9,8 @@ let user;
 
 
 app.use(express.static('public'));
-
+const cors = require('cors');
+app.use(cors());
 app.get('/', (req, res) => {
     res.send('hi loser');
 });

@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000");
+const socket = io("https://messageohyeah.onrender.com");
 const connectStatus = document.getElementById("connectStatus");
 const messageInput = document.getElementById("message");
 const messageArea = document.getElementById('messageArea');
