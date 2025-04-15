@@ -1,0 +1,17 @@
+{
+    "name": "hello-world",
+    "version": "1.0.0",
+    "main": "main.js",
+    "devDependencies": {
+        "electron": "^35.1.5",
+        "electron-builder": "^26.0.12"
+    },
+    "scripts": {
+        "start": "electron .",
+        "build": "electron-builder"
+    },
+    "dependencies": {
+        "express": "^5.1.0",
+        "socket.io": "^4.8.1"
+    }
+}
