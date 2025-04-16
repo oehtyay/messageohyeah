@@ -53,3 +53,19 @@ html, body {
     text-align: center;
     font-size: medium;
 }
+
+#promptBox {
+    position: absolute;
+    padding: 20px;
+    background-color: rgba(181, 233, 233);
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 40%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.remove {
+    display: none;
+}

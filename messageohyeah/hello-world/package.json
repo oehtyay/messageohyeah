@@ -1,6 +1,7 @@
 {
     "name": "hello-world",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "author": "theo is cool",
     "main": "main.js",
     "devDependencies": {
         "electron": "^35.1.5",

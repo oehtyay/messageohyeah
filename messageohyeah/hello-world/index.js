@@ -1,22 +1,42 @@
 const socket = io("https://messageohyeah.onrender.com");
+//const socket = io("http://localhost:3000");
 const connectStatus = document.getElementById("connectStatus");
 const messageInput = document.getElementById("message");
 const messageArea = document.getElementById('messageArea');
+const onlineNum = document.getElementById('online');
+const usernameInput = document.getElementById('inputUsername');
+const usernameBox = document.getElementById('promptBox');
+
+let idleTimeout;
+const idleTimeLimit = 60000; // 1 minute
+
 let username;
+var online;
+var idle;
 
 socket.on('disconnect', () => {
     connectStatus.textContent = "you have been disconnected from the server :(";
 });
 
-socket.on('connect', () => {
-    username = "user-" + Math.floor(Math.random() * 1000000);
-    connectStatus.textContent = "you have been connected to the server as " + username;
+function go() {
+    usernameBox.classList.add('remove');
+    username = usernameInput.value;
+    if (username.trim() == "") {
+        username = "thats not a valid username";
+    }
+    connectStatus.textContent = "you have joined as " + username;
     socket.emit('sendUsername', { username: username });
     socket.emit('chat-message', { username: username + " has joined the chat room", message: "" });
+    message.disabled = false;
+}
+
+socket.on('connect', () => {
+    connectStatus.textContent = "you have been connected - enter username to chat";
+    usernameBox.classList.remove('remove');
 });
   
 socket.on('connect_error', (error) => {
-    connectStatus.textContent = error + " ~~~~~~ the server is not active - pls wait for it to wake up :)";
+    connectStatus.textContent = error + " ~~~~~~ pls wait for server to wake up (~30s), or get better internet ¯\\_(ツ)_/¯";
 });
 
 socket.on('chat-message', (data) => {
@@ -29,9 +49,18 @@ socket.on('chat-message', (data) => {
     scrollToBottom();
 });
 
+function updateList() {
+    onlineNum.textContent = `${online} users connected | ${idle} users idle`;
+}
+
 socket.on('online', (num) => {
-    const onlineNum = document.getElementById('online');
-    onlineNum.textContent = num.online + " users online";
+    online = num.online;
+    updateList();
+});
+
+socket.on('idle', (num) => {
+    idle = num.idle;
+    updateList();
 });
 
 function sendMessage() {
@@ -55,3 +84,23 @@ messageInput.addEventListener('keydown', (event) => {
 window.addEventListener("beforeunload", () => {
     socket.emit('chat-message', { username: username + " has left the chat room", message: "" });
 });
+
+var notIdle = true;
+
+function userIsActive() {
+    clearTimeout(idleTimeout);
+    if (!notIdle) {
+        socket.emit('notIdle', { notIdle: true });
+        notIdle = true;
+    }
+    idleTimeout = setTimeout(() => {
+        socket.emit('notIdle', { notIdle: false });
+        notIdle = false;
+    }, idleTimeLimit);
+}
+
+['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'].forEach(event => {
+    window.addEventListener(event, userIsActive);
+});
+
+userIsActive();

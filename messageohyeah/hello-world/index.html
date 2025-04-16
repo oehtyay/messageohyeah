@@ -8,10 +8,15 @@
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 </head>
 <body>
+    <div id="promptBox" class="remove">
+        <p id="enterUsername">Enter a username:</p>
+        <input type="text" id="inputUsername" />
+        <button onclick="go()">OK</button>
+    </div>
     <p id="online"></p>
     <p id="connectStatus"></p>
     <div id="messageArea"></div>
-    <input id="message" type="text" placeholder="Message chat" />
+    <input id="message" type="text" placeholder="Message chat" disabled />
 </body>
 <script src="./index.js"></script>
 </html>
